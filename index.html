@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Finanzas</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Mi Finanzas</h1>
+      <p>Control personal de ingresos y gastos</p>
+    </header>
+
+    <section class="summary">
+      <div class="summary-card balance">
+        <span>Balance</span>
+        <strong id="balanceAmount">RD$ 0.00</strong>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-card income">
+          <span>Ingresos</span>
+          <strong id="incomeAmount">RD$ 0.00</strong>
+        </div>
+
+        <div class="summary-card expense">
+          <span>Gastos</span>
+          <strong id="expenseAmount">RD$ 0.00</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="tabs">
+      <button class="tab-button active" data-tab="expense">Gasto</button>
+      <button class="tab-button" data-tab="income">Ingreso</button>
+    </section>
+
+    <main>
+      <form id="expenseForm" class="form active">
+        <h2>Registrar gasto</h2>
+
+        <label>
+          Categoría
+          <select id="expenseCategory" required>
+            <option value="">Seleccionar categoría</option>
+            <option value="Comida">Comida</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Casa">Casa</option>
+            <option value="Salud">Salud</option>
+            <option value="Entretenimiento">Entretenimiento</option>
+            <option value="Educación">Educación</option>
+            <option value="Otros">Otros</option>
+          </select>
+        </label>
+
+        <label>
+          Método de pago
+          <select id="paymentMethod" required>
+            <option value="">Seleccionar método</option>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Tarjeta débito">Tarjeta débito</option>
+            <option value="Tarjeta crédito">Tarjeta crédito</option>
+            <option value="Transferencia">Transferencia</option>
+          </select>
+        </label>
+
+        <label>
+          Concepto
+          <input type="text" id="expenseConcept" placeholder="Ej: Almuerzo" required />
+        </label>
+
+        <label>
+          Monto
+          <input type="number" id="expenseAmountInput" placeholder="Ej: 350" min="1" step="0.01" required />
+        </label>
+
+        <label>
+          Fecha
+          <input type="date" id="expenseDate" required />
+        </label>
+
+        <button type="submit" class="submit-button expense-button">
+          Guardar gasto
+        </button>
+      </form>
+
+      <form id="incomeForm" class="form">
+        <h2>Registrar ingreso</h2>
+
+        <label>
+          Concepto
+          <input type="text" id="incomeConcept" placeholder="Ej: Salario" required />
+        </label>
+
+        <label>
+          Monto
+          <input type="number" id="incomeAmountInput" placeholder="Ej: 15000" min="1" step="0.01" required />
+        </label>
+
+        <label>
+          Fecha
+          <input type="date" id="incomeDate" required />
+        </label>
+
+        <button type="submit" class="submit-button income-button">
+          Guardar ingreso
+        </button>
+      </form>
+
+      <section class="movements-section">
+        <div class="section-header">
+          <h2>Movimientos</h2>
+          <button id="clearAllButton" class="clear-button">Limpiar todo</button>
+        </div>
+
+        <div id="movementsList" class="movements-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
