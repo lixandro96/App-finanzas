@@ -120,9 +120,7 @@ function renderMovements() {
     return;
   }
 
-  const sortedMovements = [...movements].sort((a, b) => {
-    return new Date(b.date) - new Date(a.date);
-  });
+  const sortedMovements = [...movements].reverse();
 
   sortedMovements.forEach((movement) => {
     const card = document.createElement("div");
