@@ -206,24 +206,23 @@ function renderMovements() {
     return;
   }
 
-  const sortedMovements = [...movements].reverse();
+  const sortedMovements = [...filteredMovements].reverse();
 
   sortedMovements.forEach((movement) => {
     const card = document.createElement("div");
     card.classList.add("movement-card", movement.type);
 
-    const sign = movement.type === "income" ? "+" : "-";
-    const typeLabel = movement.type === "income" ? "Ingreso" : "Gasto";
-
     card.innerHTML = `
       <div class="movement-top">
         <div>
           <p class="movement-title">${movement.concept}</p>
-          <p class="movement-details">${typeLabel} · ${formatDate(movement.date)}</p>
+          <p class="movement-details">
+            ${movement.type === "income" ? "Ingreso" : "Gasto"} · ${formatDate(movement.date)}
+          </p>
         </div>
 
         <strong class="movement-amount ${movement.type}">
-          ${sign}${formatCurrency(movement.amount)}
+          ${movement.type === "income" ? "+" : "-"}${formatCurrency(movement.amount)}
         </strong>
       </div>
 
@@ -231,8 +230,8 @@ function renderMovements() {
         ${
           movement.type === "expense"
             ? `
-              <p>Categoría: ${movement.category}</p>
-              <p>Método: ${movement.paymentMethod}</p>
+              <p><strong>Categoría:</strong> ${movement.category}</p>
+              <p><strong>Método:</strong> ${movement.paymentMethod}</p>
             `
             : ""
         }
