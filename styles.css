@@ -328,3 +328,25 @@ select:focus {
     opacity: 1;
   }
 }
+
+.movement-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.edit-button,
+.delete-button {
+  background: transparent;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit-button {
+  color: #38bdf8;
+}
+
+.delete-button {
+  color: #ef4444;
+}

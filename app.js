@@ -20,6 +20,7 @@ const applyFiltersButton = document.getElementById("applyFiltersButton");
 const filtersModal = document.getElementById("filtersModal");
 
 let movements = JSON.parse(localStorage.getItem("movements")) || [];
+let editingMovementId = null;
 
 const today = new Date().toISOString().split("T")[0];
 const currentMonth = today.slice(0, 7);
@@ -78,12 +79,29 @@ expenseForm.addEventListener("submit", (event) => {
     date: document.getElementById("expenseDate").value,
   };
 
-  movements.push(newExpense);
-  saveMovements();
-  renderApp();
+  if (editingMovementId) {
+    movements = movements.map((movement) => {
+      if (movement.id === editingMovementId) {
+        return {
+          ...newExpense,
+          id: editingMovementId,
+        };
+      }
 
-  expenseForm.reset();
-  document.getElementById("expenseDate").value = today;
+      return movement;
+    });
+
+    editingMovementId = null;
+    document.querySelector(".expense-button").textContent = "Guardar gasto";
+  } else {
+  movements.push(newExpense);
+}
+
+saveMovements();
+renderApp();
+
+expenseForm.reset();
+document.getElementById("expenseDate").value = today;
 });
 
 incomeForm.addEventListener("submit", (event) => {
@@ -97,7 +115,24 @@ incomeForm.addEventListener("submit", (event) => {
     date: document.getElementById("incomeDate").value,
   };
 
-  movements.push(newIncome);
+  if (editingMovementId) {
+    movements = movements.map((movement) => {
+      if (movement.id === editingMovementId) {
+        return {
+          ...newIncome,
+          id: editingMovementId,
+        };
+      }
+
+      return movement;
+    });
+
+    editingMovementId = null;
+    document.querySelector(".income-button").textContent = "Guardar ingreso";
+  } else {
+    movements.push(newIncome);
+  }
+
   saveMovements();
   renderApp();
 
@@ -203,12 +238,53 @@ function renderMovements() {
         }
       </div>
 
-      <button class="delete-button" onclick="deleteMovement('${movement.id}')">
-        Eliminar
-      </button>
+      <div class="movement-actions">
+        <button class="edit-button" onclick="editMovement('${movement.id}')">
+          Editar
+        </button>
+
+        <button class="delete-button" onclick="deleteMovement('${movement.id}')">
+          Eliminar
+        </button>
+      </div>
     `;
 
     movementsList.appendChild(card);
+  });
+}
+
+function editMovement(id) {
+  const movement = movements.find((item) => item.id === id);
+
+  if (!movement) return;
+
+  editingMovementId = id;
+
+  if (movement.type === "expense") {
+    document.querySelector('[data-tab="expense"]').click();
+
+    document.getElementById("expenseCategory").value = movement.category;
+    document.getElementById("paymentMethod").value = movement.paymentMethod;
+    document.getElementById("expenseConcept").value = movement.concept;
+    document.getElementById("expenseAmountInput").value = movement.amount;
+    document.getElementById("expenseDate").value = movement.date;
+
+    document.querySelector(".expense-button").textContent = "Actualizar gasto";
+  }
+
+  if (movement.type === "income") {
+    document.querySelector('[data-tab="income"]').click();
+
+    document.getElementById("incomeConcept").value = movement.concept;
+    document.getElementById("incomeAmountInput").value = movement.amount;
+    document.getElementById("incomeDate").value = movement.date;
+
+    document.querySelector(".income-button").textContent = "Actualizar ingreso";
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
   });
 }
 
