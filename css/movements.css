@@ -1,0 +1,97 @@
+.movements-section {
+  padding-bottom: 30px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-header h2 {
+  font-size: 20px;
+}
+
+.clear-button {
+  background: transparent;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.movements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.movement-card {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 16px;
+  border-left: 5px solid #38bdf8;
+}
+
+.movement-card.income {
+  border-left-color: #22c55e;
+}
+
+.movement-card.expense {
+  border-left-color: #ef4444;
+}
+
+.movement-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.movement-title {
+  font-weight: bold;
+}
+
+.movement-amount.income {
+  color: #22c55e;
+}
+
+.movement-amount.expense {
+  color: #ef4444;
+}
+
+.movement-details {
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.movement-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.edit-button,
+.delete-button {
+  background: transparent;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit-button {
+  color: #38bdf8;
+}
+
+.delete-button {
+  color: #ef4444;
+}
+
+.empty-message {
+  color: #94a3b8;
+  text-align: center;
+  padding: 20px;
+}

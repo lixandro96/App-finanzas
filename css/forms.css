@@ -1,0 +1,85 @@
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 5px;
+  margin-bottom: 18px;
+}
+
+.tab-button {
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  background: transparent;
+  color: #94a3b8;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tab-button.active {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+.form {
+  display: none;
+  background: #1e293b;
+  padding: 18px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+
+.form.active {
+  display: block;
+}
+
+.form h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 14px;
+  color: #cbd5e1;
+}
+
+input,
+select {
+  width: 100%;
+  margin-top: 6px;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: #f8fafc;
+  font-size: 15px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #38bdf8;
+}
+
+.submit-button {
+  width: 100%;
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.expense-button {
+  background: #ef4444;
+  color: white;
+}
+
+.income-button {
+  background: #22c55e;
+  color: #052e16;
+}

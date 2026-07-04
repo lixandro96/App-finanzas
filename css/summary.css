@@ -1,0 +1,39 @@
+.summary {
+  margin-bottom: 20px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.summary-card {
+  background: #1e293b;
+  padding: 16px;
+  border-radius: 18px;
+}
+
+.summary-card span {
+  display: block;
+  color: #94a3b8;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.summary-card strong {
+  font-size: 20px;
+}
+
+.balance strong {
+  color: #38bdf8;
+}
+
+.income strong {
+  color: #22c55e;
+}
+
+.expense strong {
+  color: #ef4444;
+}
