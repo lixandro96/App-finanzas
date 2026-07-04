@@ -6,8 +6,8 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: #f8fafc;
+  background:var(--color-background);
+  color:var(--color-text);
 }
 
 button,

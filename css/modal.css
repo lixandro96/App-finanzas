@@ -17,7 +17,7 @@
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(15, 23, 42, 0.851);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -32,7 +32,7 @@
 .modal-content {
   width: 100%;
   max-width: 480px;
-  background: #1e293b;
+  background: var(--color-surface);
   border-radius: 24px 24px 18px 18px;
   padding: 18px;
   animation: slideUp 0.2s ease;
@@ -51,8 +51,8 @@
 
 .modal-close {
   border: none;
-  background: #0f172a;
-  color: #f8fafc;
+  background: var(--color-background);
+  color: var(--color-text);
   width: 36px;
   height: 36px;
   border-radius: 50%;

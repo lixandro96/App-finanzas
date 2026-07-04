@@ -12,19 +12,19 @@
   padding: 12px;
   border-radius: 12px;
   background: transparent;
-  color: #94a3b8;
+  color: var(--color-text-secondary);
   font-weight: bold;
   cursor: pointer;
 }
 
 .tab-button.active {
-  background: #38bdf8;
-  color: #0f172a;
+  background: var(--color-primary);
+  color: var(--color-background);
 }
 
 .form {
   display: none;
-  background: #1e293b;
+  background: var(--color-surface);
   padding: 18px;
   border-radius: 20px;
   margin-bottom: 24px;
@@ -52,16 +52,16 @@ select {
   margin-top: 6px;
   padding: 13px;
   border-radius: 12px;
-  border: 1px solid #334155;
-  background: #0f172a;
-  color: #f8fafc;
+  border: 1px solid var(--border-color);
+  background: var(--color-background);
+  color: var(--color-text);
   font-size: 15px;
 }
 
 input:focus,
 select:focus {
   outline: none;
-  border-color: #38bdf8;
+  border-color: var(--color-primary);
 }
 
 .submit-button {
@@ -75,11 +75,11 @@ select:focus {
 }
 
 .expense-button {
-  background: #ef4444;
+  background: var(--color-danger);
   color: white;
 }
 
 .income-button {
-  background: #22c55e;
-  color: #052e16;
+  background: var(--color-success);
+  color: var(--color-text);
 }

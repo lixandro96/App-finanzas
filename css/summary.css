@@ -9,15 +9,15 @@
   margin-top: 12px;
 }
 
-.summary-card {
-  background: #1e293b;
-  padding: 16px;
-  border-radius: 18px;
+.summary-card{
+    background:var(--color-surface);
+    border-radius:var(--radius-large);
+    box-shadow:var(--shadow-card);
 }
 
 .summary-card span {
   display: block;
-  color: #94a3b8;
+  color: var(--color-text-secondary);
   font-size: 13px;
   margin-bottom: 8px;
 }
@@ -27,13 +27,13 @@
 }
 
 .balance strong {
-  color: #38bdf8;
+  color: var(--color-primary);
 }
 
 .income strong {
-  color: #22c55e;
+  color: var(--color-success);
 }
 
 .expense strong {
-  color: #ef4444;
+  color: var(--color-danger);
 }
