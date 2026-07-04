@@ -32,6 +32,19 @@
       </div>
     </section>
 
+<section class="filter-actions">
+  <button id="openFiltersButton" class="filter-button">
+    Filtros
+  </button>
+</section>
+
+<div id="filtersModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Filtros</h2>
+      <button id="closeFiltersButton" class="modal-close">×</button>
+    </div>
+
     <section class="filters">
       <label>
         Mes
@@ -52,6 +65,12 @@
         <input type="text" id="searchInput" placeholder="Buscar por concepto..." />
       </label>
     </section>
+
+    <button id="applyFiltersButton" class="submit-button">
+      Aplicar filtros
+    </button>
+  </div>
+</div>
 
     <section class="tabs">
       <button class="tab-button active" data-tab="expense">Gasto</button>

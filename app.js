@@ -14,6 +14,11 @@ const monthFilter = document.getElementById("monthFilter");
 const typeFilter = document.getElementById("typeFilter");
 const searchInput = document.getElementById("searchInput");
 
+const openFiltersButton = document.getElementById("openFiltersButton");
+const closeFiltersButton = document.getElementById("closeFiltersButton");
+const applyFiltersButton = document.getElementById("applyFiltersButton");
+const filtersModal = document.getElementById("filtersModal");
+
 let movements = JSON.parse(localStorage.getItem("movements")) || [];
 
 const today = new Date().toISOString().split("T")[0];
@@ -39,6 +44,25 @@ tabButtons.forEach((button) => {
       incomeForm.classList.add("active");
     }
   });
+});
+
+openFiltersButton.addEventListener("click", () => {
+  filtersModal.classList.remove("hidden");
+});
+
+closeFiltersButton.addEventListener("click", () => {
+  filtersModal.classList.add("hidden");
+});
+
+applyFiltersButton.addEventListener("click", () => {
+  renderApp();
+  filtersModal.classList.add("hidden");
+});
+
+filtersModal.addEventListener("click", (event) => {
+  if (event.target === filtersModal) {
+    filtersModal.classList.add("hidden");
+  }
 });
 
 expenseForm.addEventListener("submit", (event) => {
@@ -91,9 +115,6 @@ clearAllButton.addEventListener("click", () => {
   renderApp();
 });
 
-monthFilter.addEventListener("change", renderApp);
-typeFilter.addEventListener("change", renderApp);
-searchInput.addEventListener("input", renderApp);
 
 function saveMovements() {
   localStorage.setItem("movements", JSON.stringify(movements));

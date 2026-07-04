@@ -243,11 +243,70 @@ select:focus {
   padding: 20px;
 }
 
-.filters {
-  background: #1e293b;
-  padding: 16px;
-  border-radius: 18px;
+.filter-actions {
   margin-bottom: 18px;
+}
+
+.filter-button {
+  width: 100%;
+  border: 1px solid #38bdf8;
+  background: transparent;
+  color: #38bdf8;
+  padding: 13px;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  z-index: 100;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 480px;
+  background: #1e293b;
+  border-radius: 24px 24px 18px 18px;
+  padding: 18px;
+  animation: slideUp 0.2s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modal-header h2 {
+  font-size: 20px;
+}
+
+.modal-close {
+  border: none;
+  background: #0f172a;
+  color: #f8fafc;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.filters {
+  margin-bottom: 16px;
 }
 
 .filters label {
@@ -256,4 +315,16 @@ select:focus {
 
 .filters label:last-child {
   margin-bottom: 0;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
