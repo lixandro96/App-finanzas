@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Mi Finanzas</title>
+
   <link rel="stylesheet" href="./styles.css" />
 </head>
+
 <body>
   <div class="app">
     <header class="header">
@@ -32,49 +35,60 @@
       </div>
     </section>
 
-<section class="filter-actions">
-  <button id="openFiltersButton" class="filter-button">
-    Filtros
-  </button>
-</section>
-
-<div id="filtersModal" class="modal hidden">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Filtros</h2>
-      <button id="closeFiltersButton" class="modal-close">×</button>
-    </div>
-
-    <section class="filters">
-      <label>
-        Mes
-        <input type="month" id="monthFilter" />
-      </label>
-
-      <label>
-        Tipo
-        <select id="typeFilter">
-          <option value="all">Todos</option>
-          <option value="income">Ingresos</option>
-          <option value="expense">Gastos</option>
-        </select>
-      </label>
-
-      <label>
-        Buscar
-        <input type="text" id="searchInput" placeholder="Buscar por concepto..." />
-      </label>
+    <section class="filter-actions">
+      <button id="openFiltersButton" class="filter-button">
+        Filtros
+      </button>
     </section>
 
-    <button id="applyFiltersButton" class="submit-button">
-      Aplicar filtros
-    </button>
-  </div>
-</div>
+    <div id="filtersModal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Filtros</h2>
+          <button id="closeFiltersButton" class="modal-close" type="button">
+            ×
+          </button>
+        </div>
+
+        <section class="filters">
+          <label>
+            Mes
+            <input type="month" id="monthFilter" />
+          </label>
+
+          <label>
+            Tipo
+            <select id="typeFilter">
+              <option value="all">Todos</option>
+              <option value="income">Ingresos</option>
+              <option value="expense">Gastos</option>
+            </select>
+          </label>
+
+          <label>
+            Buscar
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Buscar por concepto..."
+            />
+          </label>
+        </section>
+
+        <button id="applyFiltersButton" class="submit-button" type="button">
+          Aplicar filtros
+        </button>
+      </div>
+    </div>
 
     <section class="tabs">
-      <button class="tab-button active" data-tab="expense">Gasto</button>
-      <button class="tab-button" data-tab="income">Ingreso</button>
+      <button class="tab-button active" data-tab="expense" type="button">
+        Gasto
+      </button>
+
+      <button class="tab-button" data-tab="income" type="button">
+        Ingreso
+      </button>
     </section>
 
     <main>
@@ -108,12 +122,24 @@
 
         <label>
           Concepto
-          <input type="text" id="expenseConcept" placeholder="Ej: Almuerzo" required />
+          <input
+            type="text"
+            id="expenseConcept"
+            placeholder="Ej: Almuerzo"
+            required
+          />
         </label>
 
         <label>
           Monto
-          <input type="number" id="expenseAmountInput" placeholder="Ej: 350" min="1" step="0.01" required />
+          <input
+            type="number"
+            id="expenseAmountInput"
+            placeholder="Ej: 350"
+            min="1"
+            step="0.01"
+            required
+          />
         </label>
 
         <label>
@@ -131,12 +157,24 @@
 
         <label>
           Concepto
-          <input type="text" id="incomeConcept" placeholder="Ej: Salario" required />
+          <input
+            type="text"
+            id="incomeConcept"
+            placeholder="Ej: Salario"
+            required
+          />
         </label>
 
         <label>
           Monto
-          <input type="number" id="incomeAmountInput" placeholder="Ej: 15000" min="1" step="0.01" required />
+          <input
+            type="number"
+            id="incomeAmountInput"
+            placeholder="Ej: 15000"
+            min="1"
+            step="0.01"
+            required
+          />
         </label>
 
         <label>
@@ -152,7 +190,10 @@
       <section class="movements-section">
         <div class="section-header">
           <h2>Movimientos</h2>
-          <button id="clearAllButton" class="clear-button">Limpiar todo</button>
+
+          <button id="clearAllButton" class="clear-button" type="button">
+            Limpiar todo
+          </button>
         </div>
 
         <div id="movementsList" class="movements-list"></div>
