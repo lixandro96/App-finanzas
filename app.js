@@ -10,9 +10,15 @@ const expenseAmount = document.getElementById("expenseAmount");
 const movementsList = document.getElementById("movementsList");
 const clearAllButton = document.getElementById("clearAllButton");
 
+const monthFilter = document.getElementById("monthFilter");
+const typeFilter = document.getElementById("typeFilter");
+const searchInput = document.getElementById("searchInput");
+
 let movements = JSON.parse(localStorage.getItem("movements")) || [];
 
 const today = new Date().toISOString().split("T")[0];
+const currentMonth = today.slice(0, 7);
+monthFilter.value = currentMonth;
 
 document.getElementById("expenseDate").value = today;
 document.getElementById("incomeDate").value = today;
@@ -85,6 +91,10 @@ clearAllButton.addEventListener("click", () => {
   renderApp();
 });
 
+monthFilter.addEventListener("change", renderApp);
+typeFilter.addEventListener("change", renderApp);
+searchInput.addEventListener("input", renderApp);
+
 function saveMovements() {
   localStorage.setItem("movements", JSON.stringify(movements));
 }
@@ -94,12 +104,30 @@ function renderApp() {
   renderMovements();
 }
 
+function getFilteredMovements() {
+  const selectedMonth = monthFilter.value;
+  const selectedType = typeFilter.value;
+  const searchText = searchInput.value.toLowerCase().trim();
+
+  return movements.filter((movement) => {
+    const movementMonth = movement.date.slice(0, 7);
+
+    const matchesMonth = selectedMonth === "" || movementMonth === selectedMonth;
+    const matchesType = selectedType === "all" || movement.type === selectedType;
+    const matchesSearch = movement.concept.toLowerCase().includes(searchText);
+
+    return matchesMonth && matchesType && matchesSearch;
+  });
+}
+
 function renderSummary() {
-  const totalIncome = movements
+  const filteredMovements = getFilteredMovements();
+
+  const totalIncome = filteredMovements
     .filter((movement) => movement.type === "income")
     .reduce((total, movement) => total + movement.amount, 0);
 
-  const totalExpense = movements
+  const totalExpense = filteredMovements
     .filter((movement) => movement.type === "expense")
     .reduce((total, movement) => total + movement.amount, 0);
 
@@ -113,9 +141,11 @@ function renderSummary() {
 function renderMovements() {
   movementsList.innerHTML = "";
 
-  if (movements.length === 0) {
+  const filteredMovements = getFilteredMovements();
+
+  if (filteredMovements.length === 0) {
     movementsList.innerHTML = `
-      <p class="empty-message">No hay movimientos registrados.</p>
+      <p class="empty-message">No hay movimientos para mostrar.</p>
     `;
     return;
   }

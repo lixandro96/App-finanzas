@@ -242,3 +242,18 @@ select:focus {
   text-align: center;
   padding: 20px;
 }
+
+.filters {
+  background: #1e293b;
+  padding: 16px;
+  border-radius: 18px;
+  margin-bottom: 18px;
+}
+
+.filters label {
+  margin-bottom: 12px;
+}
+
+.filters label:last-child {
+  margin-bottom: 0;
+}

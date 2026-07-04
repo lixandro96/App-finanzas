@@ -32,6 +32,27 @@
       </div>
     </section>
 
+    <section class="filters">
+      <label>
+        Mes
+        <input type="month" id="monthFilter" />
+      </label>
+
+      <label>
+        Tipo
+        <select id="typeFilter">
+          <option value="all">Todos</option>
+          <option value="income">Ingresos</option>
+          <option value="expense">Gastos</option>
+        </select>
+      </label>
+
+      <label>
+        Buscar
+        <input type="text" id="searchInput" placeholder="Buscar por concepto..." />
+      </label>
+    </section>
+
     <section class="tabs">
       <button class="tab-button active" data-tab="expense">Gasto</button>
       <button class="tab-button" data-tab="income">Ingreso</button>
