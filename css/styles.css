@@ -5,3 +5,10 @@
 @import url("./forms.css");
 @import url("./modal.css");
 @import url("./movements.css");
+@import url("./navigation.css");
+@import url("./pages.css");
+@import url("./components/toast.css");
+@import url("./components/confirmModal.css");
+@import url("./pages/statistics.css");
+@import url("./pages/more.css");
+@import url("./pages/welcome.css");

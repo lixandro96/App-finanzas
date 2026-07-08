@@ -1,67 +1,124 @@
-import { movements, editingMovementId, setMovements, setEditingMovementId } from "./state.js";
+import { movements, setMovements, setEditingMovementId } from "./state.js";
 import { saveMovements } from "./storage.js";
 import { getFilteredMovements } from "./filters.js";
 import { formatCurrency, formatDate, getToday } from "./utils.js";
 import { renderApp } from "./app.js";
+import { CATEGORIES } from "./config/categories.js";
+import { PAYMENT_METHODS } from "./config/paymentMethods.js";
+import { showConfirmModal } from "./components/confirmModal.js";
+import { showToast } from "./components/toast.js";
 
+const homeMovementsList = document.getElementById("homeMovementsList");
 const movementsList = document.getElementById("movementsList");
 
 export function renderMovements() {
-  movementsList.innerHTML = "";
-
   const filteredMovements = getFilteredMovements();
 
-  if (filteredMovements.length === 0) {
-    movementsList.innerHTML = `
-      <p class="empty-message">No hay movimientos para mostrar.</p>
+  renderMovementList({
+    container: homeMovementsList,
+    movementItems: movements,
+    limit: 5,
+    showActions: false,
+    emptyMessage: "No hay movimientos recientes.",
+  });
+
+  renderMovementList({
+    container: movementsList,
+    movementItems: filteredMovements,
+    showActions: true,
+    emptyMessage: "No hay movimientos para mostrar.",
+  });
+}
+
+function renderMovementList({
+  container,
+  movementItems,
+  limit = null,
+  showActions = true,
+  emptyMessage = "No hay movimientos para mostrar.",
+}) {
+  container.innerHTML = "";
+
+  if (movementItems.length === 0) {
+    container.innerHTML = `
+      <p class="empty-message">${emptyMessage}</p>
     `;
     return;
   }
 
-  const sortedMovements = [...filteredMovements].reverse();
+  let sortedMovements = [...movementItems].reverse();
+
+  if (limit) {
+    sortedMovements = sortedMovements.slice(0, limit);
+  }
 
   sortedMovements.forEach((movement) => {
     const card = document.createElement("div");
     card.classList.add("movement-card", movement.type);
 
-    card.innerHTML = `
-      <div class="movement-top">
-        <div>
-          <p class="movement-title">${movement.concept}</p>
-          <p class="movement-details">
-            ${movement.type === "income" ? "Ingreso" : "Gasto"} · ${formatDate(movement.date)}
-          </p>
-        </div>
+    card.innerHTML = createMovementCardHTML(movement, showActions);
 
-        <strong class="movement-amount ${movement.type}">
-          ${movement.type === "income" ? "+" : "-"}${formatCurrency(movement.amount)}
-        </strong>
-      </div>
-
-      <div class="movement-details">
-        ${
-          movement.type === "expense"
-            ? `
-              <p><strong>Categoría:</strong> ${movement.category}</p>
-              <p><strong>Método:</strong> ${movement.paymentMethod}</p>
-            `
-            : ""
-        }
-      </div>
-
-      <div class="movement-actions">
-        <button class="edit-button" data-action="edit" data-id="${movement.id}">
-          Editar
-        </button>
-
-        <button class="delete-button" data-action="delete" data-id="${movement.id}">
-          Eliminar
-        </button>
-      </div>
-    `;
-
-    movementsList.appendChild(card);
+    container.appendChild(card);
   });
+}
+
+function getCategoryInfo(categoryName) {
+  return CATEGORIES.find((category) => category.name === categoryName);
+}
+
+function getPaymentMethodInfo(methodName) {
+  return PAYMENT_METHODS.find((method) => method.name === methodName);
+}
+
+function createMovementCardHTML(movement, showActions) {
+  const isIncome = movement.type === "income";
+
+  const category = getCategoryInfo(movement.category);
+  const paymentMethod = getPaymentMethodInfo(movement.paymentMethod);
+
+  const movementIcon = isIncome ? "⬆️" : category?.icon || "⬇️";
+  const movementTypeLabel = isIncome ? "Ingreso" : "Gasto";
+  const amountSign = isIncome ? "+" : "-";
+
+  const movementMeta = isIncome
+    ? movementTypeLabel
+    : `${category?.name || movement.category} · ${paymentMethod?.icon || ""} ${
+        paymentMethod?.name || movement.paymentMethod
+      }`;
+
+  return `
+    <div class="movement-main">
+      <div class="movement-icon ${movement.type}">
+        ${movementIcon}
+      </div>
+
+      <div class="movement-info">
+        <p class="movement-title">${movement.concept}</p>
+        <p class="movement-details">${movementMeta}</p>
+        <p class="movement-date">${formatDate(movement.date)}</p>
+      </div>
+
+      <strong class="movement-amount ${movement.type}">
+        ${amountSign}${formatCurrency(movement.amount)}
+      </strong>
+    </div>
+
+    ${
+      showActions
+        ? `
+          <div class="movement-actions">
+            <button class="edit-button" data-action="edit" data-id="${movement.id}">
+              Editar
+            </button>
+
+            <button class="delete-button" data-action="delete" data-id="${movement.id}">
+              Eliminar
+            </button>
+          </div>
+        `
+        : ""
+    }
+  `;
 }
 
 export function handleMovementActions(event) {
@@ -88,6 +145,9 @@ function editMovement(id) {
 
   setEditingMovementId(id);
 
+  document.getElementById("movementModal").classList.remove("hidden");
+  document.getElementById("movementModalTitle").textContent = "Editar movimiento";
+
   if (movement.type === "expense") {
     document.querySelector('[data-tab="expense"]').click();
 
@@ -109,23 +169,29 @@ function editMovement(id) {
 
     document.querySelector(".income-button").textContent = "Actualizar ingreso";
   }
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
 }
 
-function deleteMovement(id) {
-  const confirmDelete = confirm("¿Seguro que quieres eliminar este movimiento?");
+async function deleteMovement(id) {
+  const confirmed = await showConfirmModal({
+    title: "Eliminar movimiento",
+    message: "Esta acción no se puede deshacer.",
+    confirmText: "Eliminar",
+    cancelText: "Cancelar",
+    type: "danger",
+  });
 
-  if (!confirmDelete) return;
+  if (!confirmed) return;
 
   const updatedMovements = movements.filter((movement) => movement.id !== id);
 
   setMovements(updatedMovements);
   saveMovements(updatedMovements);
   renderApp();
+
+  showToast({
+    type: "success",
+    message: "Movimiento eliminado",
+  });
 }
 
 export function resetForms() {
@@ -139,6 +205,8 @@ export function resetForms() {
 
   document.querySelector(".expense-button").textContent = "Guardar gasto";
   document.querySelector(".income-button").textContent = "Guardar ingreso";
+
+  document.getElementById("movementModalTitle").textContent = "Nuevo movimiento";
 
   setEditingMovementId(null);
 }

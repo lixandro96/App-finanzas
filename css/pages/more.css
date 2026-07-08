@@ -1,0 +1,109 @@
+.more-page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.more-page h2 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.more-card {
+  background: var(--color-surface);
+  border-radius: 18px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.more-card h3 {
+  padding: 16px 18px;
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.more-item,
+.more-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+
+  padding: 16px 18px;
+
+  background: transparent;
+  border: none;
+
+  color: inherit;
+  text-align: left;
+}
+
+.more-item:not(:last-child),
+.more-button:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.more-item span,
+.more-button small {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.more-item strong,
+.more-button strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+.more-button {
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.more-button:hover {
+  background: rgba(255,255,255,.04);
+}
+
+.more-button:active {
+  transform: scale(.99);
+}
+
+.more-button > span {
+  font-size: 22px;
+  color: var(--color-text-secondary);
+}
+
+.danger-button strong {
+  color: var(--color-danger);
+}
+.more-card h3 {
+  padding: 14px 18px 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  border-bottom: none;
+}
+.more-item,
+.more-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 14px 18px 16px;
+  background: transparent;
+  border: none;
+  color: inherit;
+  text-align: left;
+}
+.more-button > span {
+  font-size: 22px;
+  color: var(--color-text-secondary);
+}
+.danger-button strong {
+  color: var(--color-danger);
+}

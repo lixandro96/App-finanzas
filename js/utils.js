@@ -16,3 +16,10 @@ export function formatDate(date) {
 export function getToday() {
   return new Date().toISOString().split("T")[0];
 }
+export function createId() {
+  if (crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+
+  return Date.now().toString() + Math.random().toString(36).slice(2);
+}

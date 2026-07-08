@@ -4,119 +4,369 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Mi Finanzas</title>
+  <title></title>
 
   <link rel="stylesheet" href="./css/styles.css" />
 </head>
 
 <body>
+
+  <section id="welcomeScreen" class="welcome-screen hidden">
+    <div class="welcome-card">
+      <div class="welcome-icon">👋</div>
+
+      <h1 id="welcomeTitle"></h1>
+
+      <p id="welcomeDescription"></p>
+
+      <form id="welcomeForm">
+        <label>
+          ¿Cómo te gustaría que te llamara?
+          <input
+            type="text"
+            id="userNameInput"
+            placeholder="Escribe tu nombre"
+            autocomplete="name"
+            required
+          />
+        </label>
+
+        <button type="submit" class="submit-button">
+          Continuar
+        </button>
+      </form>
+    </div>
+  </section>
   <div class="app">
     <header class="header">
-      <h1>Mi Finanzas</h1>
-      <p>Control personal de ingresos y gastos</p>
+      <h1 id="appHeaderTitle"></h1>
+      <p id="pageSubtitle" class="page-subtitle"></p>
     </header>
 
-    <section class="summary">
-      <div class="summary-card balance">
-        <span>Balance</span>
-        <strong id="balanceAmount">RD$ 0.00</strong>
-      </div>
+    <main class="main-content">
 
-      <div class="summary-grid">
-        <div class="summary-card income">
-          <span>Ingresos</span>
-          <strong id="incomeAmount">RD$ 0.00</strong>
-        </div>
+      <section id="homePage" class="page active-page">
 
-        <div class="summary-card expense">
-          <span>Gastos</span>
-          <strong id="expenseAmount">RD$ 0.00</strong>
-        </div>
-      </div>
-    </section>
+        <section class="home-welcome">
 
-    <section class="filter-actions">
-      <button id="openFiltersButton" class="filter-button">
-        Filtros
-      </button>
-    </section>
+          <h2 id="homeGreeting"></h2>
 
-    <div id="filtersModal" class="modal hidden">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>Filtros</h2>
-          <button id="closeFiltersButton" class="modal-close" type="button">
-            ×
-          </button>
-        </div>
+          <p id="homeDate"></p>
 
-        <section class="filters">
-          <label>
-            Mes
-            <input type="month" id="monthFilter" />
-          </label>
+        </section>
+        
+        <section class="summary">
+          <div class="summary-card balance">
+            <span>Balance</span>
+            <strong id="balanceAmount">RD$ 0.00</strong>
+          </div>
 
-          <label>
-            Tipo
-            <select id="typeFilter">
-              <option value="all">Todos</option>
-              <option value="income">Ingresos</option>
-              <option value="expense">Gastos</option>
-            </select>
-          </label>
+          <div class="summary-grid">
+            <div class="summary-card income">
+              <span>Ingresos</span>
+              <strong id="incomeAmount">RD$ 0.00</strong>
+            </div>
 
-          <label>
-            Buscar
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Buscar por concepto..."
-            />
-          </label>
+            <div class="summary-card expense">
+              <span>Gastos</span>
+              <strong id="expenseAmount">RD$ 0.00</strong>
+            </div>
+          </div>
         </section>
 
-        <button id="applyFiltersButton" class="submit-button" type="button">
-          Aplicar filtros
-        </button>
-      </div>
+        <section class="movements-section">
+          <div class="section-header">
+            <h2>Últimos movimientos</h2>
+          </div>
+
+          <div id="homeMovementsList" class="movements-list"></div>
+        </section>
+      </section>
+
+      <section id="movementsPage" class="page">
+        <section class="filter-actions">
+          <button id="openFiltersButton" class="filter-button" type="button">
+            Filtros
+          </button>
+        </section>
+
+        <section class="movements-section">
+          <div class="section-header">
+            <h2>Movimientos</h2>
+
+            <button id="clearAllButton" class="clear-button" type="button">
+              Limpiar todo
+            </button>
+          </div>
+
+          <div id="movementsList" class="movements-list"></div>
+        </section>
+      </section>
+
+      <section id="statisticsPage" class="page">
+        <section class="statistics-page">
+          <h2>Estadísticas</h2>
+
+          <div class="statistics-header">
+            <button id="previousMonthButton" type="button">◀</button>
+            <h2 id="statisticsMonth">Julio 2026</h2>
+            <button id="nextMonthButton" type="button">▶</button>
+          </div>
+
+          <div class="statistics-grid">
+            <div class="statistics-card statistics-balance">
+              <span>💰 Balance del mes</span>
+              <strong id="statisticsBalance">RD$0.00</strong>
+            </div>
+
+            <div class="statistics-card statistics-income">
+              <span>📈 Ingresos</span>
+              <strong id="statisticsIncome">RD$0.00</strong>
+            </div>
+
+            <div class="statistics-card statistics-expense">
+              <span>📉 Gastos</span>
+              <strong id="statisticsExpense">RD$0.00</strong>
+            </div>
+          </div>
+
+          <div class="statistics-grid secondary-grid">
+            <div class="statistics-card">
+              <span>Mayor gasto</span>
+              <h3 id="topCategoryName">-</h3>
+              <strong id="topCategoryAmount">RD$0.00</strong>
+            </div>
+
+            <div class="statistics-card">
+              <span>Método más usado</span>
+              <h3 id="topPaymentMethod">-</h3>
+              <strong id="topPaymentCount">0 movimientos</strong>
+            </div>
+          </div>
+
+          <section class="statistics-list-section">
+            <h2>Top categorías</h2>
+            <div id="topCategoriesList" class="statistics-list"></div>
+          </section>
+        </section>
+      </section>
+
+      <section id="morePage" class="page">
+        <section class="more-page">
+
+          <h2>Más</h2>
+
+          <!-- Información -->
+
+          <section class="more-card">
+
+            <h3>Información</h3>
+
+            <div class="more-item">
+              <span>Nombre de la aplicación</span>
+              <strong id="appName">Mi Finanzas</strong>
+            </div>
+
+            <div class="more-item">
+              <span>Versión</span>
+              <strong id="appVersion">1.0</strong>
+            </div>
+
+          </section>
+
+          <!-- Gestión de datos -->
+
+          <section class="more-card">
+
+            <h3>Gestión de datos</h3>
+
+            <button id="exportDataButton" class="more-button" type="button">
+
+              <div>
+                <strong>📤 Exportar datos</strong>
+                <small>Próximamente</small>
+              </div>
+
+              <span>›</span>
+
+            </button>
+
+            <button id="importDataButton" class="more-button" type="button">
+
+              <div>
+                <strong>📥 Importar datos</strong>
+                <small>Próximamente</small>
+              </div>
+
+              <span>›</span>
+
+            </button>
+
+          </section>
+
+          <!-- Datos -->
+
+          <section class="more-card">
+
+            <h3>Datos</h3>
+
+            <button id="resetAppButton" class="more-button danger-button" type="button">
+
+              <div>
+                <strong>🗑 Restablecer aplicación</strong>
+                <small>Eliminar todos los movimientos</small>
+              </div>
+
+              <span>›</span>
+
+            </button>
+
+          </section>
+
+          <!-- Desarrollador -->
+
+          <section class="more-card">
+
+            <h3>Desarrollador</h3>
+
+            <div class="more-item">
+              <span>Creado por</span>
+              <strong id="developerName">Lixandro Beato</strong>
+            </div>
+
+          </section>
+
+        </section>
+      </section>
+    </main>
+
+    <button id="openMovementModalButton" class="floating-button" type="button">
+      +
+    </button>
+  </div>
+
+      <nav class="bottom-nav">
+      <button class="nav-button active" data-page="homePage" type="button">
+        <span>🏠</span>
+        Inicio
+      </button>
+
+      <button class="nav-button" data-page="movementsPage" type="button">
+        <span>📋</span>
+        Movs
+      </button>
+
+      <button class="nav-button" data-page="statisticsPage" type="button">
+        <span>📊</span>
+        Estad
+      </button>
+
+      <button class="nav-button" data-page="morePage" type="button">
+        <span>⚙️</span>
+        Más
+      </button>
+    </nav>
+
+<div id="filtersModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Filtros</h2>
+
+      <button id="closeFiltersButton" class="modal-close" type="button">
+        ×
+      </button>
     </div>
 
-    <section class="tabs">
-      <button class="tab-button active" data-tab="expense" type="button">
-        Gasto
-      </button>
+    <section class="filters">
+      <label>
+        Mes
+        <input type="month" id="monthFilter" />
+      </label>
 
-      <button class="tab-button" data-tab="income" type="button">
-        Ingreso
-      </button>
+      <label>
+        Tipo
+        <select id="typeFilter">
+          <option value="all">Todos</option>
+          <option value="income">Ingresos</option>
+          <option value="expense">Gastos</option>
+        </select>
+      </label>
+
+      <label>
+        Categoría
+        <select id="categoryFilter">
+          <option value="all">Todas las categorías</option>
+        </select>
+      </label>
+
+      <div class="date-range">
+        <label>
+          Desde
+          <input type="date" id="startDateFilter" />
+        </label>
+
+        <label>
+          Hasta
+          <input type="date" id="endDateFilter" />
+        </label>
+      </div>
+
+      <label>
+        Buscar
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Buscar por concepto..."
+        />
+      </label>
     </section>
 
-    <main>
+    <div class="filters-actions">
+      <button id="clearFiltersButton" class="secondary-button" type="button">
+        Limpiar
+      </button>
+
+      <button id="applyFiltersButton" class="submit-button" type="button">
+        Aplicar filtros
+      </button>
+    </div>
+  </div>
+</div>
+
+  <div id="movementModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="movementModalTitle">Nuevo movimiento</h2>
+
+        <button id="closeMovementModalButton" class="modal-close" type="button">
+          ×
+        </button>
+      </div>
+
+      <section class="tabs">
+        <button class="tab-button active" data-tab="expense" type="button">
+          Gasto
+        </button>
+
+        <button class="tab-button" data-tab="income" type="button">
+          Ingreso
+        </button>
+      </section>
+
       <form id="expenseForm" class="form active">
         <h2>Registrar gasto</h2>
 
         <label>
           Categoría
           <select id="expenseCategory" required>
-            <option value="">Seleccionar categoría</option>
-            <option value="Comida">Comida</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Casa">Casa</option>
-            <option value="Salud">Salud</option>
-            <option value="Entretenimiento">Entretenimiento</option>
-            <option value="Educación">Educación</option>
-            <option value="Otros">Otros</option>
+            
           </select>
         </label>
 
         <label>
           Método de pago
           <select id="paymentMethod" required>
-            <option value="">Seleccionar método</option>
-            <option value="Efectivo">Efectivo</option>
-            <option value="Tarjeta débito">Tarjeta débito</option>
-            <option value="Tarjeta crédito">Tarjeta crédito</option>
-            <option value="Transferencia">Transferencia</option>
+            
           </select>
         </label>
 
@@ -186,20 +436,36 @@
           Guardar ingreso
         </button>
       </form>
-
-      <section class="movements-section">
-        <div class="section-header">
-          <h2>Movimientos</h2>
-
-          <button id="clearAllButton" class="clear-button" type="button">
-            Limpiar todo
-          </button>
-        </div>
-
-        <div id="movementsList" class="movements-list"></div>
-      </section>
-    </main>
+    </div>
   </div>
+
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <div id="confirmModal" class="confirm-modal hidden">
+    <div class="confirm-modal-card">
+      <div class="confirm-modal-icon" id="confirmModalIcon">
+        !
+      </div>
+
+      <h2 id="confirmModalTitle">Confirmar acción</h2>
+
+      <p id="confirmModalMessage">
+        ¿Seguro que deseas continuar?
+      </p>
+
+      <div class="confirm-modal-actions">
+        <button id="cancelConfirmButton" class="confirm-cancel-button" type="button">
+          Cancelar
+        </button>
+
+        <button id="acceptConfirmButton" class="confirm-accept-button" type="button">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="./js/app.js"></script>
 </body>
 </html>

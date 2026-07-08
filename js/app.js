@@ -2,12 +2,36 @@ import { movements, editingMovementId, setMovements, setEditingMovementId } from
 import { saveMovements } from "./storage.js";
 import { renderSummary } from "./summary.js";
 import { renderMovements, handleMovementActions, resetForms } from "./ui.js";
-import { getToday } from "./utils.js";
+import { changePage } from "./router.js";
+import { loadAppConfiguration } from "./config/configLoader.js";
+import { showToast } from "./components/toast.js";
+import { getToday, createId } from "./utils.js";
+import { showConfirmModal } from "./components/confirmModal.js";
+import { renderStatistics, setupStatisticsEvents } from "./pages/statistics.js";
+import { renderMorePage } from "./pages/more.js";
+import { setupWelcomeEvents, showWelcomeIfNeeded,renderWelcomeScreen } from "./pages/welcome.js";
+import { renderHomeHeader } from "./pages/home.js";
+
+
+const clearFiltersButton = document.getElementById("clearFiltersButton");
+const categoryFilter = document.getElementById("categoryFilter");
+
+const searchInput = document.getElementById("searchInput");
+const typeFilter = document.getElementById("typeFilter");
+
+const startDateFilter = document.getElementById("startDateFilter");
+const endDateFilter = document.getElementById("endDateFilter");
+
+
+const openMovementModalButton = document.getElementById("openMovementModalButton");
+const closeMovementModalButton = document.getElementById("closeMovementModalButton");
+const movementModal = document.getElementById("movementModal");
 
 const expenseForm = document.getElementById("expenseForm");
 const incomeForm = document.getElementById("incomeForm");
 
 const tabButtons = document.querySelectorAll(".tab-button");
+const navButtons = document.querySelectorAll(".nav-button");
 
 const clearAllButton = document.getElementById("clearAllButton");
 const movementsList = document.getElementById("movementsList");
@@ -46,11 +70,30 @@ tabButtons.forEach((button) => {
   });
 });
 
+navButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    changePage(button.dataset.page);
+  });
+});
+
+clearFiltersButton.addEventListener("click", () => {
+  monthFilter.value = currentMonth;
+  typeFilter.value = "all";
+  categoryFilter.value = "all";
+  searchInput.value = "";
+  startDateFilter.value = "";
+  endDateFilter.value = "";
+
+  renderApp();
+  filtersModal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
+});
+
 expenseForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const newExpense = {
-    id: crypto.randomUUID(),
+    id: createId(),
     type: "expense",
     category: document.getElementById("expenseCategory").value,
     paymentMethod: document.getElementById("paymentMethod").value,
@@ -59,8 +102,10 @@ expenseForm.addEventListener("submit", (event) => {
     date: document.getElementById("expenseDate").value,
   };
 
+  let updatedMovements;
+
   if (editingMovementId) {
-    const updatedMovements = movements.map((movement) => {
+    updatedMovements = movements.map((movement) => {
       if (movement.id === editingMovementId) {
         return {
           ...newExpense,
@@ -71,14 +116,26 @@ expenseForm.addEventListener("submit", (event) => {
       return movement;
     });
 
-    setMovements(updatedMovements);
     setEditingMovementId(null);
+
+    showToast({
+      type: "info",
+      message: "Movimiento actualizado",
+    });
   } else {
-    setMovements([...movements, newExpense]);
+    updatedMovements = [...movements, newExpense];
+
+    showToast({
+      type: "success",
+      message: "Gasto registrado",
+    });
   }
 
-  saveMovements(movements);
+  setMovements(updatedMovements);
+  saveMovements(updatedMovements);
+
   resetForms();
+  movementModal.classList.add("hidden");
   renderApp();
 });
 
@@ -86,15 +143,17 @@ incomeForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const newIncome = {
-    id: crypto.randomUUID(),
+    id: createId(),
     type: "income",
     concept: document.getElementById("incomeConcept").value.trim(),
     amount: Number(document.getElementById("incomeAmountInput").value),
     date: document.getElementById("incomeDate").value,
   };
 
+  let updatedMovements;
+
   if (editingMovementId) {
-    const updatedMovements = movements.map((movement) => {
+    updatedMovements = movements.map((movement) => {
       if (movement.id === editingMovementId) {
         return {
           ...newIncome,
@@ -105,52 +164,109 @@ incomeForm.addEventListener("submit", (event) => {
       return movement;
     });
 
-    setMovements(updatedMovements);
     setEditingMovementId(null);
+
+    showToast({
+      type: "info",
+      message: "Movimiento actualizado",
+    });
   } else {
-    setMovements([...movements, newIncome]);
+    updatedMovements = [...movements, newIncome];
+
+    showToast({
+      type: "success",
+      message: "Ingreso registrado",
+    });
   }
 
-  saveMovements(movements);
+  setMovements(updatedMovements);
+  saveMovements(updatedMovements);
+
   resetForms();
+  movementModal.classList.add("hidden");
   renderApp();
 });
 
-clearAllButton.addEventListener("click", () => {
-  const confirmDelete = confirm("¿Seguro que quieres eliminar todos los movimientos?");
+clearAllButton.addEventListener("click", async () => {
+  const confirmed = await showConfirmModal({
+    title: "Limpiar movimientos",
+    message: "Se eliminarán todos los registros guardados.",
+    confirmText: "Eliminar todo",
+    cancelText: "Cancelar",
+    type: "danger",
+  });
 
-  if (!confirmDelete) return;
+  if (!confirmed) return;
 
   setMovements([]);
   saveMovements([]);
   renderApp();
+
+  showToast({
+    type: "success",
+    message: "Movimientos eliminados",
+  });
 });
 
 openFiltersButton.addEventListener("click", () => {
   filtersModal.classList.remove("hidden");
+  document.body.classList.add("modal-open");
 });
 
 closeFiltersButton.addEventListener("click", () => {
   filtersModal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
 });
 
 applyFiltersButton.addEventListener("click", () => {
   renderApp();
   filtersModal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
 });
 
 filtersModal.addEventListener("click", (event) => {
   if (event.target === filtersModal) {
     filtersModal.classList.add("hidden");
+    document.body.classList.remove("modal-open");
   }
 });
 
 movementsList.addEventListener("click", handleMovementActions);
 
+openMovementModalButton.addEventListener("click", () => {
+  resetForms();
+  movementModal.classList.remove("hidden");
+});
+
+closeMovementModalButton.addEventListener("click", () => {
+  resetForms();
+  movementModal.classList.add("hidden");
+});
+
+movementModal.addEventListener("click", (event) => {
+  if (event.target === movementModal) {
+    resetForms();
+    movementModal.classList.add("hidden");
+  }
+});
+
 export function renderApp() {
   renderSummary();
   renderMovements();
+  renderStatistics();
+  renderMorePage();
+  renderHomeHeader();
 }
 
+
+
+setupWelcomeEvents();
+loadAppConfiguration();
+setupStatisticsEvents();
+
+renderWelcomeScreen();
+
+changePage("homePage");
 renderApp();
+showWelcomeIfNeeded();
 

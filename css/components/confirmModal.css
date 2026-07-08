@@ -1,0 +1,116 @@
+.confirm-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.82);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  z-index: 10000;
+}
+
+.confirm-modal.hidden {
+  display: none;
+}
+
+.confirm-modal-card {
+  width: 100%;
+  max-width: 340px;
+  background: var(--color-surface);
+  border-radius: 22px;
+  padding: 22px;
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  animation: confirmIn 0.22s ease forwards;
+}
+
+.confirm-modal-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 24px;
+  background: rgba(239, 68, 68, 0.16);
+  color: var(--color-danger);
+}
+
+.confirm-modal-card h2 {
+  font-size: 19px;
+  margin-bottom: 8px;
+}
+
+.confirm-modal-card p {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 1.45;
+  margin-bottom: 20px;
+}
+
+.confirm-modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.confirm-cancel-button,
+.confirm-accept-button {
+  border: none;
+  padding: 12px;
+  border-radius: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.confirm-cancel-button {
+  background: var(--color-surface-light);
+  color: var(--color-text);
+}
+
+.confirm-accept-button {
+  background: var(--color-danger);
+  color: white;
+}
+
+.confirm-modal.success .confirm-modal-icon {
+  background: rgba(34, 197, 94, 0.16);
+  color: var(--color-success);
+}
+
+.confirm-modal.success .confirm-accept-button {
+  background: var(--color-success);
+  color: #052e16;
+}
+
+.confirm-modal.warning .confirm-modal-icon {
+  background: rgba(245, 158, 11, 0.16);
+  color: var(--color-warning);
+}
+
+.confirm-modal.warning .confirm-accept-button {
+  background: var(--color-warning);
+  color: #111827;
+}
+
+.confirm-modal.info .confirm-modal-icon {
+  background: rgba(56, 189, 248, 0.16);
+  color: var(--color-primary);
+}
+
+.confirm-modal.info .confirm-accept-button {
+  background: var(--color-primary);
+  color: var(--color-background);
+}
+
+@keyframes confirmIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
