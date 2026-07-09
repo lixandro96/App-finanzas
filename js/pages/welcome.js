@@ -31,6 +31,14 @@ export function setupWelcomeEvents() {
 
     localStorage.setItem(USER_NAME_KEY, userName);
 
+    document.dispatchEvent(
+      new CustomEvent("userNameSaved", {
+        detail: {
+          userName,
+        },
+      })
+    );
+
     welcomeScreen.classList.add("hidden");
 
     showToast({

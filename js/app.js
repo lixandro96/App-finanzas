@@ -76,6 +76,10 @@ navButtons.forEach((button) => {
   });
 });
 
+document.addEventListener("userNameSaved", () => {
+   renderHomeHeader();
+});
+
 clearFiltersButton.addEventListener("click", () => {
   monthFilter.value = currentMonth;
   typeFilter.value = "all";
