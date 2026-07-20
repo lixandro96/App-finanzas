@@ -1,10 +1,7 @@
+import AppRouter from "./router/AppRouter";
+
 function App() {
-  return (
-    <main>
-      <h1>LR Finanzas</h1>
-      <p>Migración a React iniciada correctamente.</p>
-    </main>
-  );
+  return <AppRouter />;
 }
 
 export default App;
